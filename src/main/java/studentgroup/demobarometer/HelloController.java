@@ -19,8 +19,8 @@ public class HelloController {
         System.out.println("Tryyy connect..............................");
         mqtt.balabala();
 //        mqtt.connect("IoTBar", "Iotbarometer1");
-//        mqtt.subscribe("Data");
-//        mqtt.publish("Hiii", "Data");
+        mqtt.subscribe("Data");
+        mqtt.publish("Hiii", "Data");
 
     }
     @FXML
