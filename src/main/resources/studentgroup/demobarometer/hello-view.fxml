@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<HBox maxHeight="580.0" maxWidth="700.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<HBox maxHeight="580.0" maxWidth="700.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studentgroup.demobarometer.HelloController">
    <children>
       <VBox alignment="TOP_CENTER" maxHeight="580.0" maxWidth="130.0" prefHeight="580.0" prefWidth="130.0" style="-fx-background-color: #2D3250;">
          <children>
@@ -19,7 +18,7 @@
             </Label>
             <VBox alignment="TOP_CENTER" prefHeight="472.0" prefWidth="130.0" spacing="10.0">
                <children>
-                  <Button maxWidth="120.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: #F6B17A; -fx-border-color: #ffffff; -fx-border-radius: 10; -fx-border-width: 3; -fx-background-radius: 20;" text="Main" textFill="WHITE">
+                  <Button maxWidth="120.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: #F6B17A; -fx-border-color: #ffffff; -fx-border-radius: 10; -fx-border-width: 3; -fx-background-radius: 20;" stylesheets="@style.css" text="Main" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -36,6 +35,11 @@
             </VBox>
          </children>
       </VBox>
-      <VBox maxHeight="580.0" maxWidth="570.0" prefHeight="580.0" prefWidth="570.0" style="-fx-background-color: #424769;" />
+      <VBox maxHeight="580.0" maxWidth="570.0" prefHeight="580.0" prefWidth="570.0" style="-fx-background-color: #424769;">
+         <children>
+            <Button mnemonicParsing="false" onAction="#onHelloButtonClick" text="connect" />
+            <Button mnemonicParsing="false" onAction="#TrySendMqtt" text="send" />
+            <Label fx:id="welcomeText" text="Label" />
+         </children></VBox>
    </children>
 </HBox>
