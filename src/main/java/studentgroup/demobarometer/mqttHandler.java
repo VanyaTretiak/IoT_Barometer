@@ -13,11 +13,10 @@ import java.util.concurrent.TimeUnit;
 
 public class mqttHandler {
     static Mqtt5Client client;
-    public void balabala() throws InterruptedException, UnknownHostException, SocketException {
-        final String host = "2661f15a40284af4a2caa13a37aa9772.s1.eu.hivemq.cloud"; // use your host-name, it should look like '<alphanumeric>.s2.eu.hivemq.cloud'
-        final String username = "IoTBar"; // your credentials
-        final String password = "Iotbarometer1";
-
+    final String host = "2661f15a40284af4a2caa13a37aa9772.s1.eu.hivemq.cloud";
+    final String username = "IoTBar"; // your credentials
+    final String password = "Iotbarometer1";
+    public void init_mqtt() throws InterruptedException, UnknownHostException, SocketException {
         final InetAddress localHost = InetAddress.getLocalHost();
         final NetworkInterface ni = NetworkInterface.getByInetAddress(localHost);
         final byte[] hardwareAddress = ni.getHardwareAddress(); // use this to get your MAC address, use it as a unique identifier
@@ -49,10 +48,12 @@ public class mqttHandler {
         client.toAsync().subscribeWith()
                 .topicFilter(topic)
                 .callback(publish -> {
-                    System.out.println("Received message on topic " + publish.getTopic() + ": " +
-                            new String(publish.getPayloadAsBytes(), StandardCharsets.UTF_8));
+                    callback(publish.getTopic().toString(), new String(publish.getPayloadAsBytes(), StandardCharsets.UTF_8));
                 })
                 .send();
+    }
+    public void callback(String topic, String message){
+        System.out.println("Received message on topic " + topic + " Message: " + message);
     }
     public void publish(String message, String topic) {
         client.toBlocking().publishWith()

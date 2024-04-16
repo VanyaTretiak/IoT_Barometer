@@ -1,3 +1,11 @@
-.button:pressed{
+.button-cst:hover{
     --fxbackground-color: #ffffff;
+}
+.button-cst{
+    -fx-background-color: #F6B17A;
+    /*-fx-padding:10;*/
+    -fx-max-width: 120px;
+    -fx-pref-width: 95%;
+    -fx-max-height: 30px;
+    -fx-font-size: 18px;
 }

@@ -3,7 +3,10 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -18,12 +21,12 @@
             </Label>
             <VBox alignment="TOP_CENTER" prefHeight="472.0" prefWidth="130.0" spacing="10.0">
                <children>
-                  <Button maxWidth="120.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: #F6B17A; -fx-border-color: #ffffff; -fx-border-radius: 10; -fx-border-width: 3; -fx-background-radius: 20;" stylesheets="@style.css" text="Main" textFill="WHITE">
+                  <Button maxWidth="120.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: #F6B17A; -fx-border-color: #ffffff; -fx-border-radius: 10; -fx-border-width: 3; -fx-background-radius: 20;" styleClass="button-cst" stylesheets="@style.css" text="Main" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button maxWidth="120.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: #F6B17A;" text="Graphoanalytics" textFill="WHITE">
+                  <Button fx:id="graphBtn" maxWidth="120.0" mnemonicParsing="false" onAction="#graphSwitchWindows" prefWidth="120.0" style="-fx-background-color: #F6B17A;" styleClass="button-cst" stylesheets="@style.css" text="Graphoanalytics" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -37,9 +40,29 @@
       </VBox>
       <VBox maxHeight="580.0" maxWidth="570.0" prefHeight="580.0" prefWidth="570.0" style="-fx-background-color: #424769;">
          <children>
-            <Button mnemonicParsing="false" onAction="#onHelloButtonClick" text="connect" />
-            <Button mnemonicParsing="false" onAction="#TrySendMqtt" text="send" />
-            <Label fx:id="welcomeText" text="Label" />
+            <GridPane prefHeight="413.0" prefWidth="541.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="28.800009155273436" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" prefHeight="31.999990844726554" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <VBox alignment="CENTER" spacing="13.0">
+                     <children>
+                        <Label fx:id="welcomeText" prefHeight="18.0" prefWidth="102.0" text="MQTT Connection" textAlignment="CENTER" textFill="WHITE" />
+                        <Button mnemonicParsing="false" onAction="#onHelloButtonClick" style="-fx-pref-width: 100%; -fx-max-width: 120px;" styleClass="button-cst" stylesheets="@style.css" text="connect" textFill="WHITE" />
+                        <Button mnemonicParsing="false" onAction="#TrySendMqtt" styleClass="button-cst" stylesheets="@style.css" text="send" textFill="WHITE" />
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </VBox>
+               </children>
+            </GridPane>
          </children></VBox>
    </children>
 </HBox>
