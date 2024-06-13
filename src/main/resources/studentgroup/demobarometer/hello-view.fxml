@@ -9,6 +9,8 @@
 <?import javafx.scene.text.Font?>
 
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import eu.hansolo.medusa.Gauge?>
 <HBox maxHeight="580.0" maxWidth="700.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="700.0" styleClass="main-window" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studentgroup.demobarometer.SwitchController">
    <children>
       <VBox alignment="TOP_CENTER" maxHeight="580.0" maxWidth="422.0" prefHeight="580.0" prefWidth="146.0" styleClass="left-bar" stylesheets="@style.css">
@@ -37,7 +39,43 @@
             </VBox>
          </children>
       </VBox>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="right-bar" >
-      </AnchorPane>
+      <VBox StackPane.alignment="CENTER" styleClass="right-bar">
+         <padding>
+            <Insets topRightBottomLeft="25"/>
+            <Insets top="80"/>
+         </padding>
+         <VBox fx:id="vBox" alignment="CENTER"/>
+         <GridPane maxWidth="Infinity" alignment="CENTER">
+            <padding>
+               <Insets topRightBottomLeft="25"/>
+            </padding>
+            <Gauge fx:id="humidityGauge" GridPane.rowIndex="0" GridPane.columnIndex="0"
+                   skinType="LCD"
+                   maxWidth="Infinity"
+                   maxHeight="75"
+                   prefWidth="250"
+                   prefHeight="100"
+                   title="Humidity"
+                   decimals="2"
+                   lcdDesign="GRAY_PURPLE"
+                   oldValueVisible="false"
+                   maxMeasuredValueVisible="false"
+                   minMeasuredValueVisible="false"
+                   unit="\%" />
+            <Gauge fx:id="digitalTempGauge" GridPane.rowIndex="0" GridPane.columnIndex="1"
+                   skinType="LCD"
+                   maxWidth="Infinity"
+                   maxHeight="75"
+                   decimals="2"
+                   prefWidth="250"
+                   prefHeight="100"
+                   title="Temperature"
+                   lcdDesign="GRAY_PURPLE"
+                   oldValueVisible="false"
+                   maxMeasuredValueVisible="false"
+                   minMeasuredValueVisible="false"
+                   unit="ºC"/>
+         </GridPane>
+      </VBox>
    </children>
 </HBox>

@@ -244,13 +244,10 @@ public class ChartController implements Initializable {
             }
         });
 
-        if (series.getData().size() == 40) {
-            series.getData().removeAll();
+        if (time > 120) {
+            animateXAxisRange(time - 115, time + 5);
         }
-//        xAxis.setLowerBound(series.getData().get(0).getXValue()-5);
-//        if (time > 30) {
-//            animateXAxisRange(time - 30, time + 5);
-        }
+    }
 
 
     private void animateXAxisRange(double newLowerBound, double newUpperBound) {

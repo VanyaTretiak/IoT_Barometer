@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -24,6 +25,7 @@ public class HelloApplication extends Application {
             Scene scene = new Scene(root, 700, 580);
             stage.setTitle("IoT Barometer");
             stage.setScene(scene);
+            stage.setResizable(false);
             stage.show();
 
 
@@ -31,9 +33,7 @@ public class HelloApplication extends Application {
         catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-
     public static void main(String[] args) {
         launch(args);
     }

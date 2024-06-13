@@ -46,8 +46,8 @@ public class PressureChartMonth implements Initializable {
         xAxis.setUpperBound(31);
 
 
-        yAxis.setAutoRanging(true);
-        yAxis.setLowerBound(400);
+        yAxis.setAutoRanging(false);
+        yAxis.setLowerBound(650);
         yAxis.setUpperBound(810);
         series = new XYChart.Series<>();
         TemperatureChart.getData().add(series);

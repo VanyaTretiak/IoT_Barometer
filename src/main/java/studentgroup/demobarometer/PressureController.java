@@ -49,7 +49,7 @@ public class PressureController implements Initializable {
         xAxis.setUpperBound(120);
 
         yAxis.setAutoRanging(false);
-        yAxis.setLowerBound(400);
+        yAxis.setLowerBound(650);
         yAxis.setUpperBound(810);
         series = new XYChart.Series<>();
         TemperatureChart.getData().add(series);
@@ -85,7 +85,7 @@ public class PressureController implements Initializable {
 
 //        int value = random.nextInt(100)-50;
 //        XYChart.Data<Number, Number> dataPoint = new XYChart.Data<>(time, value);
-        XYChart.Data<Double, Double> dataPoint = new XYChart.Data<>(time/1.0, lastItem.getPressure());
+        XYChart.Data<Double, Double> dataPoint = new XYChart.Data<>(time / 1.0, lastItem.getPressure());
         series.getData().add(dataPoint);
 
         Platform.runLater(() -> {
@@ -103,16 +103,12 @@ public class PressureController implements Initializable {
             }
         });
 
-        if (series.getData().size() == 40) {
-            series.getData().removeAll();
+        if (time > 120) {
+            animateXAxisRange(time - 115, time + 5);
         }
-//        xAxis.setLowerBound(series.getData().get(0).getXValue()-5);
-//        if (time > 30) {
-//            animateXAxisRange(time - 30, time + 5);
-        }
+    }
 
-
-    private void animateXAxisRange(double newLowerBound, double newUpperBound) {
+    public void animateXAxisRange(double newLowerBound, double newUpperBound) {
         Timeline animation = new Timeline(
                 new KeyFrame(Duration.ZERO,
                         new KeyValue(xAxis.lowerBoundProperty(), xAxis.getLowerBound()),

@@ -91,7 +91,6 @@
             <artifactId>jetty-util</artifactId>
             <version>6.1.25</version>
         </dependency>
-
     </dependencies>
 
     <build>

@@ -206,11 +206,15 @@ public class HumidityChartWeek implements Initializable {
 
 
     public void updateChart() {
-        ArrayList<Measurement> lastItems = dbconn.getLastItemsForWeek();
-
+        ArrayList<Measurement> lastItems = dbconn.getLastItemsForMonth();
+        Integer max = lastItems.size();
         for (int i = 0; i < 7; i++){
-            XYChart.Data<Integer, Double> dataPoint = new XYChart.Data<>(i+1, lastItems.get(i).getHumidity());
-            series.getData().add(dataPoint);
+            if (i+1 <= max){
+                XYChart.Data<Integer, Double> dataPoint = new XYChart.Data<>(i+1, lastItems.get(i).getHumidity());
+                series.getData().add(dataPoint);
+            } else {
+                break;
+            }
         }
     }
 

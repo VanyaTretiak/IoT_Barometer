@@ -189,7 +189,7 @@ public class PressureChartWeek implements Initializable {
 
 
         yAxis.setAutoRanging(false);
-        yAxis.setLowerBound(400);
+        yAxis.setLowerBound(650);
         yAxis.setUpperBound(810);
         series = new XYChart.Series<>();
         TemperatureChart.getData().add(series);
@@ -206,11 +206,15 @@ public class PressureChartWeek implements Initializable {
 
 
     public void updateChart() {
-        ArrayList<Measurement> lastItems = dbconn.getLastItemsForWeek();
-
+        ArrayList<Measurement> lastItems = dbconn.getLastItemsForMonth();
+        Integer max = lastItems.size();
         for (int i = 0; i < 7; i++){
-            XYChart.Data<Integer, Double> dataPoint = new XYChart.Data<>(i+1, lastItems.get(i).getPressure());
-            series.getData().add(dataPoint);
+            if (i+1 <= max){
+                XYChart.Data<Integer, Double> dataPoint = new XYChart.Data<>(i+1, lastItems.get(i).getPressure());
+                series.getData().add(dataPoint);
+            } else {
+                break;
+            }
         }
     }
 
