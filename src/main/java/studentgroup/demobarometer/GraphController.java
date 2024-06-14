@@ -18,6 +18,7 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+//Class to initialize Grpaphics page
 public class GraphController implements Initializable {
     //Definition of variables required to execute scene
     private Stage stage;
