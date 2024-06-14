@@ -38,7 +38,6 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
-// -----
 
 import java.io.IOException;
 import java.net.SocketException;
