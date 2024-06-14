@@ -21,25 +21,31 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
-import java.util.Random;
+//import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
+//Class to initialize PressureChart
 public class PressureController implements Initializable {
     @FXML
     private LineChart<Double, Double> TemperatureChart;
     private XYChart.Series<Double, Double> series;
     private int time = 0;
-    private Random random = new Random();
+    //private Random random = new Random();
+
     @FXML
     private NumberAxis xAxis;
 
     @FXML
     private NumberAxis yAxis;
+
     @FXML
     private Label TempChartClock;
 
+    //Establish connection to database
     DatabaseConnection dbconn = new DatabaseConnection();
+
+    //Function to initialize PressureChart
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
         TemperatureChart.setStyle("CHART_COLOR_1: #0000FF ;");
@@ -58,15 +64,16 @@ public class PressureController implements Initializable {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
-
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e ->
-                TempChartClock.setText(LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")))
-        ),
+                TempChartClock.setText(LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")))),
                 new KeyFrame(Duration.seconds(1))
         );
+
         clock.setCycleCount(Animation.INDEFINITE);
         clock.play();
     }
+
+    //Function to convert type of time variable
     Double timeToDouble(LocalDateTime time){
         String str = time.toString();
         String[] stra = str.split("T");
@@ -74,22 +81,22 @@ public class PressureController implements Initializable {
         String a = strb[1];
         String b = "0." + strb[2];
         System.out.println();
-        Double res = Double.parseDouble(a) + Double.parseDouble(b);
-        return res;
+        return Double.parseDouble(a) + Double.parseDouble(b);
     }
 
+    //Function to update HumidityChart
     public void updateChart() {
         time++;
         Measurement lastItem = dbconn.getLastItem();
 
-
-//        int value = random.nextInt(100)-50;
-//        XYChart.Data<Number, Number> dataPoint = new XYChart.Data<>(time, value);
-        XYChart.Data<Double, Double> dataPoint = new XYChart.Data<>(time / 1.0, lastItem.getPressure());
+        //int value = random.nextInt(100)-50;
+        //XYChart.Data<Number, Number> dataPoint = new XYChart.Data<>(time, value);
+        XYChart.Data<Double, Double> dataPoint = new XYChart.Data<>(time * 1.0, lastItem.getPressure());
         series.getData().add(dataPoint);
 
         Platform.runLater(() -> {
             Node node = dataPoint.getNode();
+
             if (node != null) {
                 FadeTransition fadeTransition = new FadeTransition(Duration.millis(500), node);
                 fadeTransition.setFromValue(0);
@@ -108,23 +115,27 @@ public class PressureController implements Initializable {
         }
     }
 
+    //Function to apply animations on PressureChart
     public void animateXAxisRange(double newLowerBound, double newUpperBound) {
         Timeline animation = new Timeline(
                 new KeyFrame(Duration.ZERO,
                         new KeyValue(xAxis.lowerBoundProperty(), xAxis.getLowerBound()),
-                        new KeyValue(xAxis.upperBoundProperty(), xAxis.getUpperBound())
-                ),
+                        new KeyValue(xAxis.upperBoundProperty(), xAxis.getUpperBound())),
                 new KeyFrame(Duration.seconds(0.1),
                         new KeyValue(xAxis.lowerBoundProperty(), newLowerBound, Interpolator.EASE_BOTH),
                         new KeyValue(xAxis.upperBoundProperty(), newUpperBound, Interpolator.EASE_BOTH)
                 )
         );
+
         animation.play();
     }
 
+    //Definition of variables required to execute scene
     private Stage stage;
     private Parent root;
     private Scene scene;
+
+    //Function to switch to Main page
     public void SwitchToMain(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("hello-view.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -132,6 +143,8 @@ public class PressureController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+    //Function to switch to Graphics page
     public void SwitchToGraphoAnalytics(ActionEvent event) throws IOException, InterruptedException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("graphoanalytics.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -139,19 +152,18 @@ public class PressureController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+    //Function to switch to Real-time subpage
     public void SwitchToRealTime(ActionEvent event) throws IOException, InterruptedException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("PressureChart.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root, 700, 580);
         stage.setScene(scene);
         stage.show();
-    }public void SwitchToMonth(ActionEvent event) throws IOException, InterruptedException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("PressureChartMonth.fxml")));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root, 700, 580);
-        stage.setScene(scene);
-        stage.show();
-    }public void SwitchToWeek(ActionEvent event) throws IOException, InterruptedException {
+    }
+
+    //Function to switch to Week subpage
+    public void SwitchToWeek(ActionEvent event) throws IOException, InterruptedException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("PressureChartWeek.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root, 700, 580);
@@ -159,19 +171,24 @@ public class PressureController implements Initializable {
         stage.show();
     }
 
+    //Function to switch to Month subpage
+    public void SwitchToMonth(ActionEvent event) throws IOException, InterruptedException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("PressureChartMonth.fxml")));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root, 700, 580);
+        stage.setScene(scene);
+        stage.show();
+    }
+
     //Setting up chart function
-    public  void loadDataChart() throws InterruptedException {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    TimeUnit.SECONDS.sleep(1);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+    public void loadDataChart() {
+        Platform.runLater(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            }
+            catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         });
     }
-    }
-
-
+}

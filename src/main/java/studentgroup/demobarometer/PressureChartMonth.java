@@ -25,18 +25,25 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+//Class to initialize PressureChart for last 30 days
 public class PressureChartMonth implements Initializable {
     @FXML
     private LineChart<Integer, Double> TemperatureChart;
     private XYChart.Series<Integer, Double> series;
+
     @FXML
     private NumberAxis xAxis;
+
     @FXML
     private NumberAxis yAxis;
+
     @FXML
     private Label TempChartClock;
 
+    //Establish connection to database
     DatabaseConnection dbconn = new DatabaseConnection();
+
+    //Function to initialize PressureChart
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
         TemperatureChart.setStyle("CHART_COLOR_1: #0000FF ;");
@@ -44,7 +51,6 @@ public class PressureChartMonth implements Initializable {
         xAxis.setTickUnit(1);
         xAxis.setLowerBound(0);
         xAxis.setUpperBound(31);
-
 
         yAxis.setAutoRanging(false);
         yAxis.setLowerBound(650);
@@ -54,32 +60,36 @@ public class PressureChartMonth implements Initializable {
 
         updateChart();
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e ->
-                TempChartClock.setText(LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")))
-        ),
+                TempChartClock.setText(LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")))),
                 new KeyFrame(Duration.seconds(1))
         );
+
         clock.setCycleCount(Animation.INDEFINITE);
         clock.play();
     }
 
-
+    //Function to update HumidityChart
     public void updateChart() {
         ArrayList<Measurement> lastItems = dbconn.getLastItemsForMonth();
-        Integer max = lastItems.size();
+        int max = lastItems.size();
+
         for (int i = 0; i < 30; i++){
-            if (i+1 <= max){
-                XYChart.Data<Integer, Double> dataPoint = new XYChart.Data<>(i+1, lastItems.get(i).getPressure());
+            if (i + 1 <= max){
+                XYChart.Data<Integer, Double> dataPoint = new XYChart.Data<>(i + 1, lastItems.get(i).getPressure());
                 series.getData().add(dataPoint);
-            } else {
+            }
+            else {
                 break;
             }
         }
     }
 
-
+    //Definition of variables required to execute scene
     private Stage stage;
     private Parent root;
     private Scene scene;
+
+    //Function to switch to Graphics page
     public void SwitchToGraphoAnalytics(ActionEvent event) throws IOException, InterruptedException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("graphoanalytics.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -87,19 +97,18 @@ public class PressureChartMonth implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+    //Function to switch into Real-time subpage
     public void SwitchToRealTime(ActionEvent event) throws IOException, InterruptedException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("PressureChart.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root, 700, 580);
         stage.setScene(scene);
         stage.show();
-    }public void SwitchToMonth(ActionEvent event) throws IOException, InterruptedException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("PressureChartMonth.fxml")));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root, 700, 580);
-        stage.setScene(scene);
-        stage.show();
-    }public void SwitchToWeek(ActionEvent event) throws IOException, InterruptedException {
+    }
+
+    //Function to switch into Week subpage
+    public void SwitchToWeek(ActionEvent event) throws IOException, InterruptedException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("PressureChartWeek.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root, 700, 580);
@@ -107,7 +116,12 @@ public class PressureChartMonth implements Initializable {
         stage.show();
     }
 
-
+    //Function to switch into Month subpage
+    public void SwitchToMonth(ActionEvent event) throws IOException, InterruptedException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("PressureChartMonth.fxml")));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root, 700, 580);
+        stage.setScene(scene);
+        stage.show();
+    }
 }
-
-

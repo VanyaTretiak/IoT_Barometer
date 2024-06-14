@@ -2,6 +2,7 @@ package studentgroup.demobarometer;
 
 import java.time.LocalDateTime;
 
+//Class to define Measurement object
 public class Measurement {
     private int id;
     private double temperature;
@@ -17,6 +18,7 @@ public class Measurement {
         this.approxHeight = approxHeight;
         this.measurementDateTime = measurementDateTime;
     }
+
     public Measurement() {
         this.temperature = 36.6;
         this.pressure = 36.6;
@@ -25,7 +27,7 @@ public class Measurement {
         this.measurementDateTime = LocalDateTime.parse("2018-05-05T11:50:55");;
     }
 
-    // Getters
+    //Getters
     public int getId() {
         return id;
     }
@@ -50,7 +52,7 @@ public class Measurement {
         return measurementDateTime;
     }
 
-    // Setters
+    //Setters
     public void setId(int id) {
         this.id = id;
     }
@@ -74,6 +76,4 @@ public class Measurement {
     public void setMeasurementDateTime(LocalDateTime measurementDateTime) {
         this.measurementDateTime = measurementDateTime;
     }
-
 }
-

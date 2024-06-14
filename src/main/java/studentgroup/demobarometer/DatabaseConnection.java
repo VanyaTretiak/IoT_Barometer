@@ -2,26 +2,36 @@ package studentgroup.demobarometer;
 import java.sql.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+//Class to establish connection to database
 public class DatabaseConnection {
+    static final Logger logger = Logger.getLogger(DatabaseConnection.class.getName());
     public Connection databaseLink;
-    public Connection getConnection(){
+
+    //Function to identify and access database
+    public Connection getConnection() {
         String databaseName = "IoTBarDB";
         String databaseUser = "Ghost";
         String databasePassword = "25052024";
         String url = "jdbc:mysql://localhost/" + databaseName;
 
-        try{
+        try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             databaseLink = DriverManager.getConnection(url, databaseUser, databasePassword);
-        } catch (Exception ex){
-            ex.printStackTrace();
         }
+        catch (Exception ex){
+            logger.log(Level.SEVERE, "An error occurred while connecting to the database", ex);
+        }
+
         return databaseLink;
     }
 
-
-    public void insertItem(Measurement measurement){
+    //Function to insert measurments from sensors into table of database
+    public void insertItem(Measurement measurement) {
         String sql = "INSERT INTO Measurements (temperature, pressure, humidity, approxHeight, time) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = getConnection();
@@ -34,11 +44,13 @@ public class DatabaseConnection {
             pstmt.setString(5, measurement.getMeasurementDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             pstmt.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-
+        catch (SQLException ex) {
+            logger.log(Level.SEVERE, "An error occurred while connecting to the database", ex);
+        }
     }
+
+    //Function to get each latest measurement from database
     public Measurement getLastItem() {
         String sql = "SELECT * FROM Measurements ORDER BY id DESC LIMIT 1;";
         Measurement measurement = null;
@@ -57,13 +69,15 @@ public class DatabaseConnection {
                 measurement.setMeasurementDateTime(rs.getTimestamp("time").toLocalDateTime());
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+        }
+        catch (SQLException ex) {
+            logger.log(Level.SEVERE, "An error occurred while connecting to the database", ex);
         }
 
         return measurement;
     }
 
+    //Function to get measurements for last 7 days
     public ArrayList<Measurement> getLastItemsForWeek() {
         ArrayList<Measurement> measurements = new ArrayList<>();
         String sql = "SELECT \n" +
@@ -92,13 +106,15 @@ public class DatabaseConnection {
                 measurement.setHumidity(rs.getDouble("avg_humidity"));
                 measurements.add(measurement);
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
+        catch (SQLException ex) {
+            logger.log(Level.SEVERE, "An error occurred while connecting to the database", ex);
+        }
+
         return measurements;
     }
 
+    //Function to get measurements for last 30 days
     public ArrayList<Measurement> getLastItemsForMonth() {
         ArrayList<Measurement> measurements = new ArrayList<>();
         String sql = "SELECT \n" +
@@ -127,9 +143,9 @@ public class DatabaseConnection {
                 measurement.setHumidity(rs.getDouble("avg_humidity"));
                 measurements.add(measurement);
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        }
+        catch (SQLException ex) {
+            logger.log(Level.SEVERE, "An error occurred while connecting to the database", ex);
         }
         return measurements;
     }
