@@ -44,27 +44,33 @@ public class GraphController implements Initializable {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
+    
     private double currentTemperature;
     private double currentHumidity;
     private double currentPressure;
+    
     //Function to dynamically update progress bars
     private void updateProgressBars() {
         Measurement lastItem = dbconn.getLastItem();
         double progressTemperature = (lastItem.getTemperature() + 50) / 100;
         double progressHumidity = lastItem.getHumidity() / 100;
         double progressPressure = (lastItem.getPressure() - 500) / 350;
+        
         Timeline tempTimeline = new Timeline(
                 new KeyFrame(Duration.ZERO, new KeyValue(TemperatureProgressBar.progressProperty(), TemperatureProgressBar.getProgress())),
                 new KeyFrame(Duration.seconds(1), new KeyValue(TemperatureProgressBar.progressProperty(), progressTemperature))
         );
+        
         Timeline humidityTimeline = new Timeline(
                 new KeyFrame(Duration.ZERO, new KeyValue(HumidityProgressBar.progressProperty(), HumidityProgressBar.getProgress())),
                 new KeyFrame(Duration.seconds(1), new KeyValue(HumidityProgressBar.progressProperty(), progressHumidity))
         );
+        
         Timeline pressureTimeline = new Timeline(
                 new KeyFrame(Duration.ZERO, new KeyValue(PressureProgressBar.progressProperty(), PressureProgressBar.getProgress())),
                 new KeyFrame(Duration.seconds(1), new KeyValue(PressureProgressBar.progressProperty(), progressPressure))
         );
+        
         tempTimeline.play();
         humidityTimeline.play();
         pressureTimeline.play();
